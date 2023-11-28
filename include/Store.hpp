@@ -11,6 +11,7 @@ class Store {
     private:
         std::map<int, Client*> _clientsByCpf;
         std::map<int, Media*> _mediasById;
+        std::map<int, Extinguisher> _ExtinguishersById;
         std::vector<Rent*> _rents;
         float income;
 

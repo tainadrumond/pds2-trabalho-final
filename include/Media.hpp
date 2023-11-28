@@ -23,6 +23,8 @@ class Media {
 
         void rent();
         void virtual returnMedia();
+
+        std::string virtual getMediaType();
 };
 
 #endif

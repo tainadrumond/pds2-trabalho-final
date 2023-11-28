@@ -13,9 +13,8 @@ class Media {
         float _price;
 
     public:
-        Media(std::string title, int copies, float price): _title(title), _copies(copies), _price(price) {
+        Media(int id, std::string title, int copies, float price) : _id(id), _title(title), _copies(copies), _price(price) {
             _idCounter++;
-            _id = _idCounter; 
         };
 
         int getId();

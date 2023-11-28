@@ -6,7 +6,6 @@
 class Media {
     private:
         static int _idCounter;
-
         int _id;
         std::string _title;
         int _copies;

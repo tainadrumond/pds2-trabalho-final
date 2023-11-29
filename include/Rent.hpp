@@ -5,35 +5,34 @@
 #include "Media.hpp"
 #include <vector>
 #include <string>
+#include <map>
 
 class Rent {
     private:
         Client* _client;
         std::vector<Media*> _medias;
+        bool _active;
+        float _paymentAmount;
 
         void printRentReceipt();
-        void printDevolutionReceipt();
+        void printDevolutionReceipt(std::map<int, float> pricesByMediaCode);
 
     public:
         Rent(Client* client, std::vector<Media*> medias): _client(client), _medias(medias) {
-            for (std::vector<Media*>::iterator it = medias.begin(); it != medias.end(); it++) {
-                (*it)->rent();
-            }
+            _active = true;
             printRentReceipt();
         };
-
-        ~Rent() {
-            printDevolutionReceipt();
-        }
 
         Client* getClient();
         std::vector<Media*> getMedias();
 
-        // Returns the total price
-        float calculatePrice(int numberOfDays);
+        // Returns the price for each media, mapped by code
+        std::map<int, float> calculatePrice(int numberOfDays);
 
         // Returns the price of the media parameter
         float calculatePrice(int numberOfDays, Media* media);
+
+        void returnRent(int numberOfDays);
 
         void printRentReport();
 };

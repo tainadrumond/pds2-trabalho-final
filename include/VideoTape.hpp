@@ -7,12 +7,16 @@
 class VideoTape : public Media
 {
 private:
-    int price = 5;
+    int _price = 5;
+    float _priceForRewoundDevolution = 2;
 
 public:
-    VideoTape(std::string title, int copies, int id): Media(id, title, copies, price) {};
+    VideoTape(std::string title, int copies, int id): Media(id, title, copies, _price) {};
 
-    void returnMedia(int rewound);
+    int getPrice();
+    float getPriceForRewoundDevolution();
+
+    void returnMedia();
     std::string getMediaType(); 
 };
 

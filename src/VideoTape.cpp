@@ -1,8 +1,14 @@
 #include <string>
-#include "VideoTape.hpp"
+#include "../include/VideoTape.hpp"
 
-VideoTape::VideoTape(std::string title, int copies, bool rewound) :
-Media(title, copies), _rewound(rewound)
-{
+int VideoTape::getPrice() {
+    return _price;
 }
 
+float VideoTape::getPriceForRewoundDevolution() {
+    return _priceForRewoundDevolution;
+}
+
+std::string VideoTape::getMediaType() {
+    return "FITA";
+}

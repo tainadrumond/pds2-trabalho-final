@@ -17,6 +17,12 @@ class Rent {
         void printRentReceipt();
         void printDevolutionReceipt(std::map<int, float> pricesByMediaCode);
 
+        // Returns the price for each media, mapped by code
+        std::map<int, float> calculatePrice(int numberOfDays);
+
+        // Returns the price of the media parameter
+        float calculatePrice(int numberOfDays, Media* media);
+
     public:
         Rent(Client* client, std::vector<Media*> medias): _client(client), _medias(medias) {
             _active = true;
@@ -26,14 +32,7 @@ class Rent {
         Client* getClient();
         std::vector<Media*> getMedias();
 
-        // Returns the price for each media, mapped by code
-        std::map<int, float> calculatePrice(int numberOfDays);
-
-        // Returns the price of the media parameter
-        float calculatePrice(int numberOfDays, Media* media);
-
         void returnRent(int numberOfDays);
-
         void printRentReport();
 };
 

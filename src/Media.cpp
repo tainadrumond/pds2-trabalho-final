@@ -1,0 +1,26 @@
+#include "../include/Media.hpp"
+
+int Media::getId()
+{
+  return (this->_id);
+}
+
+std::string Media::getTitle()
+{
+  return (this->_title);
+}
+int Media::getCopies()
+{
+  return (this->_copies);
+}
+float Media::getPrice()
+{
+  return (this->_price);
+}
+
+void Media::rent(){
+  this->_idCounter--;
+}
+void Media::returnMedia(){
+  this->_idCounter++;
+}

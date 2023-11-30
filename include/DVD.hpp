@@ -11,7 +11,6 @@ class DVD: public Media {
     public:
         DVD(std::string title, int copies, int id, DVDCategory* category): _category(category), Media(id, title, copies, category->getPrice()) {};
         
-        void returnMedia();
         std::string getMediaType(); 
 };
 

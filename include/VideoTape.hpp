@@ -16,7 +16,6 @@ public:
     int getPrice();
     float getPriceForRewoundDevolution();
 
-    void returnMedia();
     std::string getMediaType(); 
 };
 

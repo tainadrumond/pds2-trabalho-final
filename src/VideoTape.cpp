@@ -1,7 +1,7 @@
 #include <string>
 #include "../include/VideoTape.hpp"
 
-int VideoTape::getPrice() {
+float VideoTape::getPrice() {
     return _price;
 }
 

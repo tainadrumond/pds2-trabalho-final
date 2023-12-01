@@ -4,6 +4,7 @@
 #include "Client.hpp"
 #include "Media.hpp"
 #include "Rent.hpp"
+#include "Extinguisher.hpp"
 #include <map>
 #include <vector>
 
@@ -13,7 +14,7 @@ class Store {
         std::map<int, Media*> _mediasById;
         std::map<int, Extinguisher> _ExtinguishersById;
         std::vector<Rent*> _rents;
-        float income;
+        float _income;
 
     public:
         void setClient(Client* client);

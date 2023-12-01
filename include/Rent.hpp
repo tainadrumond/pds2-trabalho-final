@@ -31,6 +31,8 @@ class Rent {
 
         Client* getClient();
         std::vector<Media*> getMedias();
+        float getPaymentAmount();
+        bool isActive();
 
         void returnRent(int numberOfDays);
         void printRentReport();

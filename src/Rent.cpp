@@ -15,6 +15,14 @@ vector<Media*> Rent::getMedias() {
     return _medias;
 }
 
+float Rent::getPaymentAmount() {
+    return _paymentAmount;
+}
+
+bool Rent::isActive() {
+    return _active;
+}
+
 void Rent::printRentReceipt() {
     cout << "Cliente "  << _client->getCpf() << " " << _client->getName() << " alugou os filmes:" << endl;
 

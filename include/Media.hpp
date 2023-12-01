@@ -21,7 +21,7 @@ class Media {
         int getCopies();
         float getPrice();
 
-        std::string virtual getMediaType();
+        std::string virtual getMediaType() = 0;
 };
 
 #endif

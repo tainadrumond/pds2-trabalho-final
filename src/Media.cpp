@@ -17,10 +17,3 @@ float Media::getPrice()
 {
   return (this->_price);
 }
-
-void Media::rent(){
-  this->_idCounter--;
-}
-void Media::returnMedia(){
-  this->_idCounter++;
-}

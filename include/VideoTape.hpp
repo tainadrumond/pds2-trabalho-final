@@ -4,14 +4,15 @@
 #include "Media.hpp"
 #include <string>
 
+const int VIDEO_TAPE_PRICE = 5;
+
 class VideoTape : public Media
 {
 private:
-    int _price = 5;
     float _priceForRewoundDevolution = 2;
 
 public:
-    VideoTape(std::string title, int copies, int id): Media(id, title, copies, _price) {};
+    VideoTape(std::string title, int copies, int id): Media(id, title, copies, VIDEO_TAPE_PRICE) {};
 
     int getPrice();
     float getPriceForRewoundDevolution();

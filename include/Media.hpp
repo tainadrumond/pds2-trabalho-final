@@ -4,7 +4,7 @@
 #include <string>
 
 class Media {
-    private:
+    protected:
         static int _idCounter;
         int _id;
         std::string _title;
@@ -21,7 +21,7 @@ class Media {
         int getCopies();
         float getPrice();
 
-        std::string virtual getMediaType();
+        std::string virtual getMediaType() = 0;
 };
 
 #endif

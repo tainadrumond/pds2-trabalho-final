@@ -4,7 +4,7 @@
 #include <string>
 
 class Media {
-    private:
+    protected:
         static int _idCounter;
         int _id;
         std::string _title;

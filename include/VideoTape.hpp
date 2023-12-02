@@ -14,7 +14,7 @@ private:
 public:
     VideoTape(std::string title, int copies, int id): Media(id, title, copies, VIDEO_TAPE_PRICE) {};
 
-    int getPrice();
+    float getPrice();
     float getPriceForRewoundDevolution();
 
     std::string getMediaType(); 

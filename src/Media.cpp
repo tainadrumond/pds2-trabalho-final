@@ -17,3 +17,14 @@ float Media::getPrice()
 {
   return (this->_price);
 }
+void Media::addRating(int rating)
+{
+  this->_sumRating += rating;
+  this->_numRating++;
+}
+float Media::getAverageRating()
+{
+  if (this->_numRating == 0)
+    return (0);
+  return (this->_sumRating / this->_numRating);
+}

@@ -28,6 +28,7 @@ public:
     float getIncome();
 
     void calculateIncome();
+    void giveSuggestion();
 };
 
 #endif

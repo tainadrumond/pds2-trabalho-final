@@ -7,26 +7,32 @@
 
 using namespace std;
 
-Client* Rent::getClient() {
+Client *Rent::getClient()
+{
     return _client;
 }
 
-vector<Media*> Rent::getMedias() {
+vector<Media *> Rent::getMedias()
+{
     return _medias;
 }
 
-void Rent::printRentReceipt() {
-    cout << "Cliente "  << _client->getCpf() << " " << _client->getName() << " alugou os filmes:" << endl;
+void Rent::printRentReceipt()
+{
+    cout << "Cliente " << _client->getCpf() << " " << _client->getName() << " alugou os filmes:" << endl;
 
-    for(vector<Media*>::iterator media = _medias.begin(); media != _medias.end(); media++) {
-         cout << (*media)->getId() << " " << (*media)->getTitle() << " " << (*media)->getMediaType() << endl;
+    for (vector<Media *>::iterator media = _medias.begin(); media != _medias.end(); media++)
+    {
+        cout << (*media)->getId() << " " << (*media)->getTitle() << " " << (*media)->getMediaType() << endl;
     }
 }
 
-void Rent::printDevolutionReceipt(map<int, float> pricesByMediaCode) {
-    cout << "Cliente "  << _client->getCpf() << " " << _client->getName() << " alugou os filmes:" << endl;
+void Rent::printDevolutionReceipt(map<int, float> pricesByMediaCode)
+{
+    cout << "Cliente " << _client->getCpf() << " " << _client->getName() << " alugou os filmes:" << endl;
 
-    for(vector<Media*>::iterator media = _medias.begin(); media != _medias.end(); media++) {
+    for (vector<Media *>::iterator media = _medias.begin(); media != _medias.end(); media++)
+    {
         int mediaId = (*media)->getId();
         cout << (*media)->getId() << " " << pricesByMediaCode.at(mediaId) << endl;
     }
@@ -34,13 +40,15 @@ void Rent::printDevolutionReceipt(map<int, float> pricesByMediaCode) {
     cout << "Total a pagar: " << _paymentAmount << endl;
 }
 
-map<int, float> Rent::calculatePrice(int numberOfDays) {
+map<int, float> Rent::calculatePrice(int numberOfDays)
+{
     map<int, float> priceByMediaCode;
     _paymentAmount = 0;
 
-    for(vector<Media*>::iterator mediaIt = _medias.begin(); mediaIt != _medias.end(); mediaIt++) {
+    for (vector<Media *>::iterator mediaIt = _medias.begin(); mediaIt != _medias.end(); mediaIt++)
+    {
         float mediaPrice = calculatePrice(numberOfDays, (*mediaIt));
-    
+
         pair<int, float> mapItem = pair<int, float>((*mediaIt)->getId(), mediaPrice);
         priceByMediaCode.insert(mapItem);
 
@@ -50,27 +58,39 @@ map<int, float> Rent::calculatePrice(int numberOfDays) {
     return priceByMediaCode;
 }
 
-float Rent::calculatePrice(int numberOfDays, Media* media) {
+float Rent::calculatePrice(int numberOfDays, Media *media)
+{
     float paymentAmount = numberOfDays * media->getPrice();
-    if (media->getMediaType() == "DVD") {
+    if (media->getMediaType() == "DVD")
+    {
         return paymentAmount;
     }
 
     bool isTapeRewound = rand() % 2;
-    VideoTape* videoTapePtr = dynamic_cast<VideoTape*>(media);
+    VideoTape *videoTapePtr = dynamic_cast<VideoTape *>(media);
 
-    float videoTapePaymentAmout = isTapeRewound && videoTapePtr != nullptr 
-                                    ? paymentAmount + videoTapePtr->getPriceForRewoundDevolution()
-                                    : paymentAmount;
+    float videoTapePaymentAmout = isTapeRewound && videoTapePtr != nullptr
+                                      ? paymentAmount + videoTapePtr->getPriceForRewoundDevolution()
+                                      : paymentAmount;
     return videoTapePaymentAmout;
 }
 
-void Rent::returnRent(int numberOfDays) {
+void Rent::returnRent(int numberOfDays)
+{
     map<int, float> pricesByMediaCode = calculatePrice(numberOfDays);
     printDevolutionReceipt(pricesByMediaCode);
     _active = false;
+    for (vector<Media *>::iterator media = _medias.begin(); media != _medias.end(); media++)
+    {
+        cout << "Por favor, avalie a mídia " << (*media)->getTitle() << " com uma nota de 0 a 5" << endl;
+        int rating;
+        cin >> rating;
+        (*media)->addRating(rating);
+    }
+    cout << "Obrigado por alugar conosco!" << endl;
 }
 
-void Rent::printRentReport() {
+void Rent::printRentReport()
+{
     printRentReceipt();
 }

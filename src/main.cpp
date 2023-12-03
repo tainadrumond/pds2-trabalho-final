@@ -1,13 +1,77 @@
+#include "../include/DVD.hpp"
+#include "../include/VideoTape.hpp"
+#include "../include/Store.hpp"
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 
 using namespace std;
 
+vector<DVDCategory *> initDefaultDVDCategories()
+{
+  vector<DVDCategory *> defaultDVDCategories;
+  defaultDVDCategories.emplace_back('Lancamento', 20);
+  defaultDVDCategories.emplace_back('Estoque', 10);
+  defaultDVDCategories.emplace_back('Promocao', 10);
+
+  return defaultDVDCategories;
+}
+
+void registerMedia(Store *&store, vector<DVDCategory *> DVDCategories)
+{
+  Media *media;
+  char type;
+  int copies, code;
+  string title;
+
+  cin >> type >> copies >> title;
+
+  if (type == 'D')
+  {
+    string categoryName;
+    cin >> categoryName;
+
+    DVDCategory *dvdCategory;
+    for (vector<DVDCategory *>::iterator dvdCategoryIt = DVDCategories.begin(); dvdCategoryIt != DVDCategories.end(); dvdCategoryIt++)
+    {
+      if ((*dvdCategoryIt)->getName() == categoryName)
+      {
+        dvdCategory = (*dvdCategoryIt);
+      }
+    }
+
+    media = new DVD(title, copies, code, dvdCategory);
+  }
+  else if (type == 'F')
+  {
+    media = new VideoTape(title, copies, code);
+  }
+  else
+  {
+    throw "ERRO: dados incorretos";
+  }
+
+  store->setMedia(media);
+}
+
+void removeMedia(Store *&store)
+{
+  int code;
+  cin >> code;
+  store->removeMedia(code);
+}
+
+void registerClient(Store *&store)
+{
+}
+
 int main()
 {
+  vector<DVDCategory *> dvdCategories = initDefaultDVDCategories();
+  Store *store;
 
-  map<string, int> commands = {
+  map<string, int> const commands = {
       {"LA", 1},
       {"CF", 2},
       {"RF", 3},
@@ -25,8 +89,9 @@ int main()
   {
     cin >> textIn;
 
-    auto it = commands.find(textIn); //Se o comando de entrada tiver dentro do map, então entra no switch case
-    if (it != commands.end()){
+    auto it = commands.find(textIn); // Se o comando de entrada tiver dentro do map, então entra no switch case
+    if (it != commands.end())
+    {
       int numberIn = it->second;
 
       switch (numberIn)
@@ -35,9 +100,11 @@ int main()
         break;
 
       case 2: // "CF"
+        registerMedia(store, dvdCategories);
         break;
 
       case 3: // "RF"
+        removeMedia(store);
         break;
 
       case 4: // "LF"
@@ -59,7 +126,7 @@ int main()
         break;
 
       case 10: //"FS"
-      return(0);
+        return (0);
         break;
 
       default:
@@ -67,7 +134,8 @@ int main()
         break;
       }
     }
-    else{
+    else
+    {
       cout << "ERRO: comando inválido. Comandos disponíveis: CF, RF, LF, CC, RC, LC, AL, DV, FS" << endl;
     }
   }

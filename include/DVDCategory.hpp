@@ -3,16 +3,19 @@
 
 #include <string>
 
-class DVDCategory {
-    private:
-        std::string _name;
-        float _price;
-    
-    public:
-        DVDCategory(std::string name, float price): _name(name), _price(price) {};
+class DVDCategory
+{
+private:
+    std::string _name;
+    float _price;
+    bool _fixedPrice;
 
-        std::string getName();
-        float getPrice();
+public:
+    DVDCategory(std::string name, float price, bool fixedPrice) : _name(name), _price(price), _fixedPrice(fixedPrice){};
+
+    std::string getName();
+    float getPrice();
+    bool hasFixedPrice();
 };
 
 #endif

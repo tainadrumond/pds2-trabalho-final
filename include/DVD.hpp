@@ -9,7 +9,7 @@ class DVD: public Media {
         DVDCategory* _category;
     
     public:
-        DVD(std::string title, int copies, int id, DVDCategory* category): _category(category), Media(id, title, copies, category->getPrice()) {};
+        DVD(std::string title, int copies, int id, DVDCategory* category): _category(category), Media(id, title, copies, category->getPrice(), category->hasFixedPrice()) {};
         
         std::string getMediaType() override; 
 };

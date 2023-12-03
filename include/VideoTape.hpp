@@ -2,22 +2,20 @@
 #define VIDEOTAPE_HPP
 
 #include "Media.hpp"
-#include <string>
-
-const int VIDEO_TAPE_PRICE = 5;
 
 class VideoTape : public Media
 {
 private:
-    float _priceForRewoundDevolution = 2;
+    bool _rewound;
 
 public:
-    VideoTape(std::string title, int copies, int id): Media(id, title, copies, VIDEO_TAPE_PRICE) {};
+    VideoTape(int id, std::string title, bool adult);
+    ~VideoTape();
 
-    float getPrice();
-    float getPriceForRewoundDevolution();
+    void rewind();
+    bool isRewound();
 
-    std::string getMediaType(); 
+    float getRentPrice(int rentDays) override;
 };
 
 #endif

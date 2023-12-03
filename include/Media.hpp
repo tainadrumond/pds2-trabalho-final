@@ -3,25 +3,28 @@
 
 #include <string>
 
-class Media {
-    protected:
-        static int _idCounter;
-        int _id;
-        std::string _title;
-        int _copies;
-        float _price;
+class Media
+{
+private:
+    int _id;
+    std::string _title;
+    bool _adult;
+    float _sumRating;
+    int _countRating;
 
-    public:
-        Media(int id, std::string title, int copies, float price) : _id(id), _title(title), _copies(copies), _price(price) {
-            _idCounter++;
-        };
+public:
+    Media(int id, std::string title, bool adult);
+    ~Media();
 
-        int getId();
-        std::string getTitle();
-        int getCopies();
-        float getPrice();
+    int getId();
+    std::string getTitle();
 
-        std::string virtual getMediaType() = 0;
+    bool isAdult();
+
+    float virtual getRentPrice(int rentDays) = 0;
+
+    void addRating(int rating);
+    float getRating();
 };
 
 #endif

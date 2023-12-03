@@ -35,6 +35,8 @@ public:
     void removeMedia(int id);
 
     void calculateIncome();
+
+    void giveSuggestion();
 };
 
 #endif

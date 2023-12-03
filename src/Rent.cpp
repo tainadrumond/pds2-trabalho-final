@@ -96,6 +96,15 @@ void Rent::returnRent(int numberOfDays)
     map<int, float> pricesByMediaCode = calculatePrice(numberOfDays);
     printDevolutionReceipt(pricesByMediaCode);
     _active = false;
+
+    for (vector<Media *>::iterator mediaIt = _medias.begin(); mediaIt != _medias.end(); mediaIt++)
+    {
+        cout << "Por favor, avalie o filme " << (*mediaIt)->getTitle() << " com uma nota de 0 a 5: ";
+        int rating;
+        cin >> rating;
+        (*mediaIt)->addRating(rating);
+    }
+    cout << "Obrigado por avaliar nossos filmes!" << endl;
 }
 
 void Rent::printRentReport()

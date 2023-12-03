@@ -1,5 +1,6 @@
 #include "Store.hpp"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -195,4 +196,16 @@ void Store::calculateIncome()
         }
     }
     _income = totalIncome;
+}
+
+void Store::giveSuggestion()
+{
+    vector<Media *> sortedMediasByRating;
+    sort(sortedMediasByRating.begin(), sortedMediasByRating.end(), [](Media *a, Media *b)
+         { return a->getRating() > b->getRating(); });
+
+    cout << "Sugestão de mídias:" << endl;
+    cout << "1 - " << sortedMediasByRating[0]->getTitle() << endl;
+    cout << "2 - " << sortedMediasByRating[1]->getTitle() << endl;
+    cout << "3 - " << sortedMediasByRating[2]->getTitle() << endl;
 }

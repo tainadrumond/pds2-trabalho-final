@@ -36,6 +36,8 @@ public:
     void removeClient(string cpf);
 
     void calculateIncome();
+
+    void giveSuggestion();
 };
 
 #endif

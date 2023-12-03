@@ -23,6 +23,19 @@ void Store::setMedia(Media *media)
     }
     pair<int, Media *> mediaPair = make_pair(media->getId(), media);
     _mediasById.insert(mediaPair);
+
+    cout << "Filme " << media->getId() << " cadastrado com sucesso" << endl;
+}
+
+void Store::setDVDCategory(DVDCategory *dvdCategory)
+{
+    auto categoryIt = _dvdCategoriesByName.find(dvdCategory->getName());
+    if (categoryIt != _dvdCategoriesByName.end())
+    {
+        throw invalid_argument("Erro: categoria ja cadastrada");
+    }
+    pair<string, DVDCategory *> categoryPair = make_pair(dvdCategory->getName(), dvdCategory);
+    _dvdCategoriesByName.insert(categoryPair);
 }
 
 void Store::setRent(Rent *rent)
@@ -70,6 +83,19 @@ Media *Store::getMedia(int id)
     {
         Media *media = _mediasById.at(id);
         return media;
+    }
+    catch (out_of_range &e)
+    {
+        return nullptr;
+    }
+}
+
+DVDCategory *Store::getDVDCategory(string name)
+{
+    try
+    {
+        DVDCategory *dvdCategory = _dvdCategoriesByName.at(name);
+        return dvdCategory;
     }
     catch (out_of_range &e)
     {

@@ -8,16 +8,16 @@
 class Extinguisher
 {
 private:
-  static int idCounter;
+  static int _idCounter;
 
-  int daysToExpDate;
-  bool type; // 0 for water; 1 for CO2
+  int _daysToExpDate;
+  bool _type; // 0 for water; 1 for CO2
 
 public:
-  Extinguisher(int daysToExpDate, bool type);
-  void Extinguisher::refuel();
-  int Extinguisher::getDaysToExpDate();
-  bool Extinguisher::getType();
+  Extinguisher(int daysToExpDate, bool type) : _daysToExpDate(daysToExpDate), _type(type){};
+  void refuel();
+  int getDaysToExpDate();
+  bool getType();
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include "../include/DVD.hpp"
 #include "../include/VideoTape.hpp"
 #include "../include/Store.hpp"
+#include "../include/IoOperations.hpp"
 #include <iostream>
 #include <string>
 #include <map>
@@ -8,68 +9,17 @@
 
 using namespace std;
 
-vector<DVDCategory *> initDefaultDVDCategories()
+void initDefaultDVDCategories(Store *&store)
 {
-  vector<DVDCategory *> defaultDVDCategories;
-  defaultDVDCategories.emplace_back('Lancamento', 20);
-  defaultDVDCategories.emplace_back('Estoque', 10);
-  defaultDVDCategories.emplace_back('Promocao', 10);
-
-  return defaultDVDCategories;
-}
-
-void registerMedia(Store *&store, vector<DVDCategory *> DVDCategories)
-{
-  Media *media;
-  char type;
-  int copies, code;
-  string title;
-
-  cin >> type >> copies >> title;
-
-  if (type == 'D')
-  {
-    string categoryName;
-    cin >> categoryName;
-
-    DVDCategory *dvdCategory;
-    for (vector<DVDCategory *>::iterator dvdCategoryIt = DVDCategories.begin(); dvdCategoryIt != DVDCategories.end(); dvdCategoryIt++)
-    {
-      if ((*dvdCategoryIt)->getName() == categoryName)
-      {
-        dvdCategory = (*dvdCategoryIt);
-      }
-    }
-
-    media = new DVD(title, copies, code, dvdCategory);
-  }
-  else if (type == 'F')
-  {
-    media = new VideoTape(title, copies, code);
-  }
-  else
-  {
-    throw "ERRO: dados incorretos";
-  }
-
-  store->setMedia(media);
-}
-
-void removeMedia(Store *&store)
-{
-  int code;
-  cin >> code;
-  store->removeMedia(code);
-}
-
-void registerClient(Store *&store)
-{
+  store->setDVDCategory(new DVDCategory("Lancamento", 20, false));
+  store->setDVDCategory(new DVDCategory("Estoque", 10, false));
+  store->setDVDCategory(new DVDCategory("Promocao", 10, true));
 }
 
 int main()
 {
-  vector<DVDCategory *> dvdCategories = initDefaultDVDCategories();
-  Store *store;
+  Store *store = new Store();
+  initDefaultDVDCategories(store);
 
   map<string, int> const commands = {
       {"LA", 1},
@@ -87,7 +37,7 @@ int main()
 
   while (true)
   {
-    cin >> textIn;
+    read(textIn);
 
     auto it = commands.find(textIn); // Se o comando de entrada tiver dentro do map, então entra no switch case
     if (it != commands.end())
@@ -100,7 +50,7 @@ int main()
         break;
 
       case 2: // "CF"
-        registerMedia(store, dvdCategories);
+        registerMedia(store);
         break;
 
       case 3: // "RF"

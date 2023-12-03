@@ -7,32 +7,34 @@
 #include <string>
 #include <map>
 
+using namespace std;
+
 class Rent
 {
 private:
     Client *_client;
-    std::vector<Media *> _medias;
+    vector<Media *> _medias;
     bool _active;
     float _paymentAmount;
 
     void printRentReceipt();
-    void printDevolutionReceipt(std::map<int, float> pricesByMediaCode);
+    void printDevolutionReceipt(map<int, float> pricesByMediaCode);
 
     // Returns the price for each media, mapped by code
-    std::map<int, float> calculatePrice(int numberOfDays);
+    map<int, float> calculatePrice(int numberOfDays);
 
     // Returns the price of the media parameter
     float calculatePrice(int numberOfDays, Media *media);
 
 public:
-    Rent(Client *client, std::vector<Media *> medias) : _client(client), _medias(medias)
+    Rent(Client *client, vector<Media *> medias) : _client(client), _medias(medias)
     {
         _active = true;
         printRentReceipt();
     };
 
     Client *getClient();
-    std::vector<Media *> getMedias();
+    vector<Media *> getMedias();
     float getPaymentAmount();
     bool isActive();
 

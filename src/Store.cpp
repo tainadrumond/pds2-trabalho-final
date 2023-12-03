@@ -1,5 +1,6 @@
 #include "Store.hpp"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -10,8 +11,10 @@ void Store::setClient(Client *client)
     {
         throw invalid_argument("ERRO: CPF repetido");
     }
-    pair<int, Client *> clientPair = make_pair(client->getCpf(), client);
+    pair<string, Client *> clientPair = make_pair(client->getCpf(), client);
     _clientsByCpf.insert(clientPair);
+
+    cout << "Cliente " << client->getCpf() << " cadastrado com sucesso" << endl;
 }
 
 void Store::setMedia(Media *media)
@@ -64,7 +67,7 @@ void Store::setRent(Rent *rent)
     _rents.push_back(rent);
 }
 
-Client *Store::getClient(int cpf)
+Client *Store::getClient(string cpf)
 {
     try
     {
@@ -108,10 +111,14 @@ float Store::getIncome()
     return _income;
 }
 
-Rent *Store::getRent(int cpf)
+Rent *Store::getRent(string cpf)
 {
     for (vector<Rent *>::iterator rentIt = _rents.begin(); rentIt != _rents.end(); rentIt++)
     {
+        if (!(*rentIt)->isActive())
+        {
+            continue;
+        }
         Client *rentClient = (*rentIt)->getClient();
         if (rentClient->getCpf() == cpf)
         {
@@ -160,6 +167,24 @@ void Store::removeMedia(int id)
     cout << "Filme " << id << " removido com sucesso" << endl;
 }
 
+void Store::removeClient(string cpf)
+{
+    auto clientIt = _clientsByCpf.find(cpf);
+    if (clientIt == _clientsByCpf.end())
+    {
+        throw invalid_argument("ERRO: CPF inexistente");
+    }
+
+    Rent *rent = getRent(cpf);
+    if (rent != nullptr)
+    {
+        throw invalid_argument("ERRO: o cliente não pode ser removido pois possui alugueis ativos");
+    }
+
+    _clientsByCpf.erase(clientIt);
+    cout << "Cliente " << cpf << " removido com sucesso" << endl;
+}
+
 void Store::calculateIncome()
 {
     float totalIncome = 0.0;
@@ -171,4 +196,16 @@ void Store::calculateIncome()
         }
     }
     _income = totalIncome;
+}
+
+void Store::giveSuggestion()
+{
+    vector<Media *> sortedMediasByRating;
+    sort(sortedMediasByRating.begin(), sortedMediasByRating.end(), [](Media *a, Media *b)
+         { return a->getRating() > b->getRating(); });
+
+    cout << "Sugestão de mídias:" << endl;
+    cout << "1 - " << sortedMediasByRating[0]->getTitle() << endl;
+    cout << "2 - " << sortedMediasByRating[1]->getTitle() << endl;
+    cout << "3 - " << sortedMediasByRating[2]->getTitle() << endl;
 }

@@ -12,7 +12,7 @@
 class Store
 {
 private:
-    std::map<int, Client *> _clientsByCpf;
+    std::map<string, Client *> _clientsByCpf;
     std::map<int, Media *> _mediasById;
     std::map<int, Extinguisher> _ExtinguishersById;
     std::map<std::string, DVDCategory *> _dvdCategoriesByName;
@@ -54,7 +54,7 @@ public:
  *
  * @return Cliente.
  */
-    Client *getClient(int cpf);
+    Client *getClient(string cpf);
  /**
  * @brief Método que informa uma mídia de acordo com seu número de ID.
  *
@@ -70,7 +70,7 @@ public:
  *
  * @return Aluguel.
  */
-    Rent *getRent(int cpf);
+    Rent *getRent(string cpf);
  /**
  * @brief Método que dá informações de uma categoria de DVD de acordo com o nome do filme.
  *
@@ -103,6 +103,10 @@ public:
  * @brief Método que determina sugestões de filmes de acordo com avaliações passadas.
  */
     void giveSuggestion();
+ /**
+ * @brief Método que remove um cliente de acordo com o núemro do CPF.
+ */
+    void removeClient(string cpf);
 };
 
 #endif

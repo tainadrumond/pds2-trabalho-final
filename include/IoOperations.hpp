@@ -13,4 +13,6 @@ void removeMedia(Store *&store);
 
 void registerClient(Store *&store);
 
+void removeClient(Store *&store);
+
 #endif

@@ -61,9 +61,11 @@ int main()
         break;
 
       case 5: // "CC"
+        registerClient(store);
         break;
 
       case 6: // "RC"
+        removeClient(store);
         break;
 
       case 7: // "LC"

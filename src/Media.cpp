@@ -21,3 +21,16 @@ bool Media::hasFixedPrice()
 {
   return _fixedPrice;
 }
+
+void Media::addRating(int rating)
+{
+  _sumRating += rating;
+  _numberOfRatings++;
+}
+
+float Media::getRating()
+{
+  if (_numberOfRatings == 0)
+    return 0;
+  return (float)_sumRating / _numberOfRatings;
+}

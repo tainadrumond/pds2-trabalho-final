@@ -2,20 +2,33 @@
 #define CLIENT_HPP
 
 #include <string>
+#include <iostream>
 
-class Client {
-    private:
-        std::string _name;
-        int _cpf;
+using namespace std;
 
-    public:
-        Client(std::string name, int cpf): _name(name), _cpf(cpf) {};
+class Client
+{
+private:
+    string _name;
+    string _cpf;
+    bool checkIfCpfIsAuthentic(string cpf);
 
-        std::string getName();
-        int getCpf();
-        
-        void setName(std::string name);
-        void setCpf(int cpf);
+public:
+    Client(string name, string cpf) : _name(name)
+    {
+        bool cpfIsAuthentic = checkIfCpfIsAuthentic(cpf);
+        if (!cpfIsAuthentic)
+        {
+            throw invalid_argument("ERRO: CPF inválido");
+        }
+        _cpf = cpf;
+    };
+
+    string getName();
+    string getCpf();
+
+    void setName(string name);
+    void setCpf(string cpf);
 };
 
 #endif

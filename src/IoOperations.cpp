@@ -54,16 +54,69 @@ void registerMedia(Store *&store)
         return;
     }
 
-    store->setMedia(media);
+    try
+    {
+        store->setMedia(media);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+    }
 }
 
 void removeMedia(Store *&store)
 {
     int code;
     cin >> code;
-    store->removeMedia(code);
+    try
+    {
+        store->removeMedia(code);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+    }
 }
 
 void registerClient(Store *&store)
 {
+    string cpf;
+    string name;
+    read(cpf);
+    read(name);
+
+    Client *client;
+    try
+    {
+        client = new Client(name, cpf);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << ". Cadastro cancelado" << endl;
+        return;
+    }
+
+    try
+    {
+        store->setClient(client);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << ". Cadastro cancelado" << endl;
+    }
+}
+
+void removeClient(Store *&store)
+{
+    string cpf;
+    read(cpf);
+
+    try
+    {
+        store->removeClient(cpf);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+    }
 }

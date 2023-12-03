@@ -10,8 +10,10 @@ void Store::setClient(Client *client)
     {
         throw invalid_argument("ERRO: CPF repetido");
     }
-    pair<int, Client *> clientPair = make_pair(client->getCpf(), client);
+    pair<string, Client *> clientPair = make_pair(client->getCpf(), client);
     _clientsByCpf.insert(clientPair);
+
+    cout << "Cliente " << client->getCpf() << " cadastrado com sucesso" << endl;
 }
 
 void Store::setMedia(Media *media)
@@ -64,7 +66,7 @@ void Store::setRent(Rent *rent)
     _rents.push_back(rent);
 }
 
-Client *Store::getClient(int cpf)
+Client *Store::getClient(string cpf)
 {
     try
     {
@@ -108,10 +110,14 @@ float Store::getIncome()
     return _income;
 }
 
-Rent *Store::getRent(int cpf)
+Rent *Store::getRent(string cpf)
 {
     for (vector<Rent *>::iterator rentIt = _rents.begin(); rentIt != _rents.end(); rentIt++)
     {
+        if (!(*rentIt)->isActive())
+        {
+            continue;
+        }
         Client *rentClient = (*rentIt)->getClient();
         if (rentClient->getCpf() == cpf)
         {
@@ -158,6 +164,24 @@ void Store::removeMedia(int id)
 
     _mediasById.erase(mediaIt);
     cout << "Filme " << id << " removido com sucesso" << endl;
+}
+
+void Store::removeClient(string cpf)
+{
+    auto clientIt = _clientsByCpf.find(cpf);
+    if (clientIt == _clientsByCpf.end())
+    {
+        throw invalid_argument("ERRO: CPF inexistente");
+    }
+
+    Rent *rent = getRent(cpf);
+    if (rent != nullptr)
+    {
+        throw invalid_argument("ERRO: o cliente não pode ser removido pois possui alugueis ativos");
+    }
+
+    _clientsByCpf.erase(clientIt);
+    cout << "Cliente " << cpf << " removido com sucesso" << endl;
 }
 
 void Store::calculateIncome()

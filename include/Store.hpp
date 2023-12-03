@@ -12,7 +12,7 @@
 class Store
 {
 private:
-    std::map<int, Client *> _clientsByCpf;
+    std::map<string, Client *> _clientsByCpf;
     std::map<int, Media *> _mediasById;
     std::map<int, Extinguisher> _ExtinguishersById;
     std::map<std::string, DVDCategory *> _dvdCategoriesByName;
@@ -26,13 +26,14 @@ public:
     void setRent(Rent *rent);
     void setDVDCategory(DVDCategory *dvdCategory);
 
-    Client *getClient(int cpf);
+    Client *getClient(string cpf);
     Media *getMedia(int id);
-    Rent *getRent(int cpf);
+    Rent *getRent(string cpf);
     DVDCategory *getDVDCategory(string name);
     float getIncome();
 
     void removeMedia(int id);
+    void removeClient(string cpf);
 
     void calculateIncome();
 };

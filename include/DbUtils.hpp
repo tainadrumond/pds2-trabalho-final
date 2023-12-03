@@ -20,9 +20,9 @@ public:
     DbUtils(std::string path);
 
     void load();
-    std::vector<Media> get_media();
-    std::vector<Client> get_clients();
-    std::vector<Rent> get_rentals();
+    std::vector<Media *> get_media();
+    std::vector<Client *> get_clients();
+    std::vector<Rent *> get_rentals();
 
     void save(std::vector<Media> media, std::vector<Client> clients, std::vector<Rent> rentals);
 };

@@ -65,7 +65,7 @@ void DbUtils::load()
             float price;
             int copies;
             iss >> id >> title >> price >> copies;
-            Media media(id, title, price, copies);
+            Media media(id, title, copies, price);
             _media.push_back(media);
         }
         else if (type == "C")

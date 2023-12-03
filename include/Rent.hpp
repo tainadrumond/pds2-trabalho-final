@@ -7,33 +7,41 @@
 #include <string>
 #include <map>
 
-class Rent {
-    private:
-        Client* _client;
-        std::vector<Media*> _medias;
-        bool _active;
-        float _paymentAmount;
+using namespace std;
 
-        void printRentReceipt();
-        void printDevolutionReceipt(std::map<int, float> pricesByMediaCode);
+class Rent
+{
+private:
+    Client *_client;
+    vector<Media *> _medias;
+    bool _active;
+    float _paymentAmount;
 
-        // Returns the price for each media, mapped by code
-        std::map<int, float> calculatePrice(int numberOfDays);
+    void printRentReceipt();
+    void printDevolutionReceipt(map<int, float> pricesByMediaCode);
 
-        // Returns the price of the media parameter
-        float calculatePrice(int numberOfDays, Media* media);
+    // Returns the price for each media, mapped by code
+    map<int, float> calculatePrice(int numberOfDays);
 
-    public:
-        Rent(Client* client, std::vector<Media*> medias): _client(client), _medias(medias) {
-            _active = true;
-            printRentReceipt();
-        };
+    // Returns the price of the media parameter
+    float calculatePrice(int numberOfDays, Media *media);
 
-        Client* getClient();
-        std::vector<Media*> getMedias();
+public:
+    Rent(Client *client, vector<Media *> medias) : _client(client), _medias(medias)
+    {
+        _active = true;
+        printRentReceipt();
+    };
 
-        void returnRent(int numberOfDays);
-        void printRentReport();
+    Client *getClient();
+    vector<Media *> getMedias();
+    float getPaymentAmount();
+    bool isActive();
+
+    void setMedias(vector<Media *> medias);
+
+    void returnRent(int numberOfDays);
+    void printRentReport();
 };
 
 #endif

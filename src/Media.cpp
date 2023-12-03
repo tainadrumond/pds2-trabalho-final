@@ -17,3 +17,7 @@ float Media::getPrice()
 {
   return (this->_price);
 }
+bool Media::hasFixedPrice()
+{
+  return _fixedPrice;
+}

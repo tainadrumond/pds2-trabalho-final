@@ -9,15 +9,16 @@ const int VIDEO_TAPE_PRICE = 5;
 class VideoTape : public Media
 {
 private:
-    float _priceForRewoundDevolution = 2;
+    float const _priceForRewoundDevolution = 2;
+    bool const _fixedPrice = true;
 
 public:
-    VideoTape(std::string title, int copies, int id): Media(id, title, copies, VIDEO_TAPE_PRICE) {};
+    VideoTape(std::string title, int copies, int id) : Media(id, title, copies, VIDEO_TAPE_PRICE, _fixedPrice){};
 
     float getPrice();
     float getPriceForRewoundDevolution();
 
-    std::string getMediaType(); 
+    std::string getMediaType();
 };
 
 #endif

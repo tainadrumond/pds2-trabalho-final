@@ -8,3 +8,7 @@ std::string DVDCategory::getName() {
 float DVDCategory::getPrice() {
     return _price;
 }
+
+bool DVDCategory::hasFixedPrice() {
+    return _fixedPrice;
+}

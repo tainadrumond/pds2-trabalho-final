@@ -15,4 +15,8 @@ void registerClient(Store *&store);
 
 void removeClient(Store *&store);
 
+void rent(Store *&store);
+
+void returnRent(Store *&store);
+
 #endif

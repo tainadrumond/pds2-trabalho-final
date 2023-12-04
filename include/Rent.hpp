@@ -17,7 +17,6 @@ private:
     bool _active;
     float _paymentAmount;
 
-    void printRentReceipt();
     void printDevolutionReceipt(map<int, float> pricesByMediaCode);
 
     // Returns the price for each media, mapped by code
@@ -30,7 +29,6 @@ public:
     Rent(Client *client, vector<Media *> medias) : _client(client), _medias(medias)
     {
         _active = true;
-        printRentReceipt();
     };
 
     Client *getClient();
@@ -41,6 +39,7 @@ public:
     void setMedias(vector<Media *> medias);
 
     void returnRent(int numberOfDays);
+    void printRentReceipt();
     void printRentReport();
 };
 

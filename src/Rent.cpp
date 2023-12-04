@@ -82,7 +82,7 @@ float Rent::calculatePrice(int numberOfDays, Media *media)
         return paymentAmount;
     }
 
-    bool isTapeRewound = rand() % 2;
+    bool isTapeRewound = rand() % 2 == 1;
     VideoTape *videoTapePtr = dynamic_cast<VideoTape *>(media);
 
     float videoTapePaymentAmout = isTapeRewound && videoTapePtr != nullptr

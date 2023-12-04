@@ -209,3 +209,56 @@ void Store::giveSuggestion()
     cout << "2 - " << sortedMediasByRating[1]->getTitle() << endl;
     cout << "3 - " << sortedMediasByRating[2]->getTitle() << endl;
 }
+
+void Store::listMedias(char orderBy)
+{
+    vector<pair<int, Media *>> medias(_mediasById.begin(), _mediasById.end());
+    if (orderBy == 'C')
+    {
+        sort(medias.begin(), medias.end(), [](const auto &a, const auto &b)
+             { return a.first < b.first; });
+    }
+    else if (orderBy == 'T')
+    {
+        sort(medias.begin(), medias.end(), [](const auto &a, const auto &b)
+             { return (a.second)->getTitle() < (b.second)->getTitle(); });
+    }
+    else
+    {
+        throw invalid_argument("ERRO: dados incorretos. Opção de ordenamento " + to_string(orderBy) + " inválida.");
+    }
+
+    Media *tempMedia;
+    for (vector<pair<int, Media *>>::iterator mediaIt = medias.begin(); mediaIt != medias.end(); mediaIt++)
+    {
+        tempMedia = (*mediaIt).second;
+        cout << tempMedia->getId() << " " << tempMedia->getTitle() << " ";
+        cout << tempMedia->getCopies() << " " << tempMedia->getMediaType() << endl;
+    }
+}
+
+void Store::listClients(char orderBy)
+{
+    vector<pair<string, Client *>> clients(_clientsByCpf.begin(), _clientsByCpf.end());
+    if (orderBy == 'C')
+    {
+        sort(clients.begin(), clients.end(), [](const auto &a, const auto &b)
+             { return a.first < b.first; });
+    }
+    else if (orderBy == 'N')
+    {
+        sort(clients.begin(), clients.end(), [](const auto &a, const auto &b)
+             { return (a.second)->getName() < (b.second)->getName(); });
+    }
+    else
+    {
+        throw invalid_argument("ERRO: dados incorretos. Opção de ordenamento " + to_string(orderBy) + " inválida.");
+    }
+
+    Client *tempClient;
+    for (vector<pair<string, Client *>>::iterator clientIt = clients.begin(); clientIt != clients.end(); clientIt++)
+    {
+        tempClient = (*clientIt).second;
+        cout << tempClient->getCpf() << " " << tempClient->getName() << endl;
+    }
+}

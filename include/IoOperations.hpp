@@ -15,4 +15,8 @@ void registerClient(Store *&store);
 
 void removeClient(Store *&store);
 
+void listMedias(Store *&store);
+
+void listClients(Store *&store);
+
 #endif

@@ -11,7 +11,7 @@ void read(T &input)
 
     while (!(cin >> input))
     {
-        cout << "ERRO: Dados incorretos. Entrada incoerente com o tipo esperado. Insira novamente" << endl;
+        cout << "ERRO: dados incorretos. Entrada incoerente com o tipo esperado. Insira novamente" << endl;
         cin.clear();
         cin.ignore(INT_MAX, '\n');
     }
@@ -114,6 +114,34 @@ void removeClient(Store *&store)
     try
     {
         store->removeClient(cpf);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+    }
+}
+
+void listMedias(Store *&store)
+{
+    char orderBy;
+    read(orderBy);
+    try
+    {
+        store->listMedias(orderBy);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+    }
+}
+
+void listClients(Store *&store)
+{
+    char orderBy;
+    read(orderBy);
+    try
+    {
+        store->listClients(orderBy);
     }
     catch (invalid_argument &e)
     {

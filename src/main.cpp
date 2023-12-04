@@ -58,6 +58,7 @@ int main()
         break;
 
       case 4: // "LF"
+        listMedias(store);
         break;
 
       case 5: // "CC"
@@ -69,6 +70,7 @@ int main()
         break;
 
       case 7: // "LC"
+        listClients(store);
         break;
 
       case 8: // "AL"

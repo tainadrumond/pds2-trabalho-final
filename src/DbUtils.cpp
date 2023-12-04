@@ -43,6 +43,10 @@ void DbUtils::save(std::vector<Media> media, std::vector<Client> clients, std::v
 
 void DbUtils::load()
 {
+  DVDCategory * CategoryLançamento = new DVDCategory("Lancamento", 20, false);
+  DVDCategory * CategoryEstoque = new DVDCategory("Estoque", 10, false);
+  DVDCategory * CategoryPromocao = new DVDCategory("Promocao", 10, true);
+
     std::ifstream file;
     file.open(_path);
 
@@ -60,25 +64,38 @@ void DbUtils::load()
 
         if (type == "M")
         {
-            int id;
-            std::string title;
-            float price;
-            int copies;
-            iss >> id >> title >> price >> copies;
-            Media media(id, title, copies, price);
-            _media.push_back(media);
+            std::string mediaType;
+            iss >> mediaType;
+            if(mediaType == "D"){
+                int id;
+                std::string title;
+                float price;
+                int copies;
+                iss >> id >> title >> price >> copies;
+                DVD DVD(title, copies, id, CategoryLançamento );
+                _media.push_back(&DVD);
+            }
+            else if(mediaType == "F"){
+                int id;
+                std::string title;
+                float price;
+                int copies;
+                iss >> id >> title >> price >> copies;
+                VideoTape VideoTape(title, copies, id);
+                _media.push_back(&VideoTape);
+            }
         }
         else if (type == "C")
         {
-            int cpf;
+            std::string cpf;
             std::string name;
             iss >> cpf >> name;
             Client client(name, cpf);
-            _clients.push_back(client);
+            _clients.push_back(&client);
         }
         else if (type == "R")
         {
-            int cpf;
+            std::string cpf;
             int numberOfMedias;
             iss >> cpf >> numberOfMedias;
             std::vector<Media *> medias;
@@ -86,20 +103,20 @@ void DbUtils::load()
             {
                 int id;
                 iss >> id;
-                for (std::vector<Media>::iterator it = _media.begin(); it != _media.end(); it++)
+                for (int it = 0 ; it < _media.size(); it++)
                 {
-                    if (it->getId() == id)
+                    if (_media[it]->getId() == id)
                     {
-                        medias.push_back(&(*it));
+                        medias.push_back(&(*_media[it]));
                     }
                 }
             }
-            for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
+            for (int it = 0 ; it < _clients.size(); it++)
             {
-                if (it->getCpf() == cpf)
+                if (_clients[it]->getCpf() == cpf)
                 {
-                    Rent rent(&(*it), medias);
-                    _rentals.push_back(rent);
+                    Rent rent(&(*_clients[it]), medias);
+                    _rentals.push_back(&rent);
                 }
             }
         }
@@ -108,17 +125,17 @@ void DbUtils::load()
     file.close();
 }
 
-std::vector<Media> DbUtils::get_media()
+std::vector<Media*> DbUtils::get_media()
 {
     return _media;
 }
 
-std::vector<Client> DbUtils::get_clients()
+std::vector<Client*> DbUtils::get_clients()
 {
     return _clients;
 }
 
-std::vector<Rent> DbUtils::get_rentals()
+std::vector<Rent*> DbUtils::get_rentals()
 {
     return _rentals;
 }

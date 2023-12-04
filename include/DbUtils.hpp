@@ -7,14 +7,16 @@
 #include "Media.hpp"
 #include "Client.hpp"
 #include "Rent.hpp"
+#include "DVD.hpp"
+#include "VideoTape.hpp"
 
 class DbUtils
 {
 private:
     std::string _path;
-    std::vector<Media> _media;
-    std::vector<Client> _clients;
-    std::vector<Rent> _rentals;
+    std::vector<Media*> _media;
+    std::vector<Client*> _clients;
+    std::vector<Rent*> _rentals;
 
 public:
   /**
@@ -36,13 +38,13 @@ public:
  * 
  * @return Vetor de clientes.
  */
-    std::vector<Client *> get_clients();
+    std::vector<Client* > get_clients();
   /**
  * @brief Método que pega um vetor de aluguéis.
  * 
  * @return Vetor de aluguéis.
  */
-    std::vector<Rent *> get_rentals();
+    std::vector<Rent* > get_rentals();
   /**
  * @brief Método que salva todas as informações.
  */

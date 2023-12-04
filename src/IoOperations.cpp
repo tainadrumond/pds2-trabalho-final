@@ -1,6 +1,7 @@
 #include "../include/IoOperations.hpp"
 #include "../include/DVD.hpp"
 #include "../include/VideoTape.hpp"
+#include "../include/DbUtils.hpp"
 #include <iostream>
 #include <climits>
 
@@ -196,4 +197,12 @@ void returnRent(Store *&store)
     }
 
     rent->returnRent(numberOfDays);
+}
+
+void readFile()
+{
+    string path;
+    read(path);
+    DbUtils DbUtils(path);
+    DbUtils.load();    
 }

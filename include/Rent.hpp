@@ -11,7 +11,7 @@ using namespace std;
 
 class Rent
 {
-private:
+public:
     Client *_client;
     vector<Media *> _medias;
     bool _active;

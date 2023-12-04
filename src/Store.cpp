@@ -163,14 +163,16 @@ void Store::removeClient(string cpf)
         throw invalid_argument("ERRO: CPF inexistente");
     }
 
-    Rent *rent = getRent(cpf);
-    if (rent != nullptr)
+    try
     {
+        Rent *rent = getRent(cpf);
         throw invalid_argument("ERRO: o cliente não pode ser removido pois possui alugueis ativos");
     }
-
-    _clientsByCpf.erase(clientIt);
-    cout << "Cliente " << cpf << " removido com sucesso" << endl;
+    catch (invalid_argument &e)
+    {
+        _clientsByCpf.erase(clientIt);
+        cout << "Cliente " << cpf << " removido com sucesso" << endl;
+    }
 }
 
 void Store::calculateIncome()
@@ -188,14 +190,14 @@ void Store::calculateIncome()
 
 void Store::giveSuggestion()
 {
-    vector<Media *> sortedMediasByRating;
-    sort(sortedMediasByRating.begin(), sortedMediasByRating.end(), [](Media *a, Media *b)
-         { return a->getRating() > b->getRating(); });
+    vector<pair<int, Media *>> sortedMediasByRating(_mediasById.begin(), _mediasById.end());
+    sort(sortedMediasByRating.begin(), sortedMediasByRating.end(), [](pair<int, Media *> a, pair<int, Media *> b)
+         { return a.second->getRating() > b.second->getRating(); });
 
     cout << "Sugestão de mídias:" << endl;
-    cout << "1 - " << sortedMediasByRating[0]->getTitle() << endl;
-    cout << "2 - " << sortedMediasByRating[1]->getTitle() << endl;
-    cout << "3 - " << sortedMediasByRating[2]->getTitle() << endl;
+    cout << "1 - " << sortedMediasByRating[0].second->getTitle() << endl;
+    cout << "2 - " << sortedMediasByRating[1].second->getTitle() << endl;
+    cout << "3 - " << sortedMediasByRating[2].second->getTitle() << endl;
 }
 
 void Store::listMedias(char orderBy)

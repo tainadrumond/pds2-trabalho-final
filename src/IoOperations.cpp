@@ -11,7 +11,7 @@ void read(T &input)
 
     if (!(cin >> input))
     {
-        cout << "ERRO: Dados incorretos. Entrada incoerente com o tipo esperado. Operação cancelada" << endl;
+        throw invalid_argument("ERRO: Dados incorretos. Entrada incoerente com o tipo esperado. Operação cancelada");
     }
 }
 
@@ -21,16 +21,33 @@ void registerMedia(Store *&store)
     int copies, code;
     string title;
 
-    read(type);
-    read(copies);
-    read(code);
-    read(title);
+    try
+    {
+        read(type);
+        read(copies);
+        read(code);
+        read(title);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+        return;
+    }
 
     Media *media;
     if (type == 'D')
     {
         string categoryName;
-        read(categoryName);
+
+        try
+        {
+            read(categoryName);
+        }
+        catch (invalid_argument &e)
+        {
+            cout << e.what() << endl;
+            return;
+        }
 
         DVDCategory *dvdCategory = store->getDVDCategory(categoryName);
 
@@ -80,8 +97,16 @@ void registerClient(Store *&store)
 {
     string cpf;
     string name;
-    read(cpf);
-    read(name);
+
+    try
+    {
+        read(cpf);
+        read(name);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+    }
 
     Client *client;
     try
@@ -107,10 +132,10 @@ void registerClient(Store *&store)
 void removeClient(Store *&store)
 {
     string cpf;
-    read(cpf);
 
     try
     {
+        read(cpf);
         store->removeClient(cpf);
     }
     catch (invalid_argument &e)
@@ -124,10 +149,10 @@ void rent(Store *&store)
     string cpf;
     vector<int> mediaIds = {};
 
-    read(cpf);
     Client *client;
     try
     {
+        read(cpf);
         client = store->getClient(cpf);
     }
     catch (invalid_argument &e)
@@ -179,14 +204,13 @@ void rent(Store *&store)
 void returnRent(Store *&store)
 {
     string cpf;
-    read(cpf);
-
     int numberOfDays;
-    read(numberOfDays);
 
     Rent *rent;
     try
     {
+        read(cpf);
+        read(numberOfDays);
         rent = store->getRent(cpf);
     }
     catch (invalid_argument &e)
@@ -196,14 +220,15 @@ void returnRent(Store *&store)
     }
 
     rent->returnRent(numberOfDays);
+    store->giveSuggestion();
 }
 
 void listMedias(Store *&store)
 {
     char orderBy;
-    read(orderBy);
     try
     {
+        read(orderBy);
         store->listMedias(orderBy);
     }
     catch (invalid_argument &e)
@@ -215,9 +240,9 @@ void listMedias(Store *&store)
 void listClients(Store *&store)
 {
     char orderBy;
-    read(orderBy);
     try
     {
+        read(orderBy);
         store->listClients(orderBy);
     }
     catch (invalid_argument &e)

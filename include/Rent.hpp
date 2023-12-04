@@ -18,10 +18,6 @@ private:
     float _paymentAmount;
 
     /**
-     * @brief Método que imprime um recibo de aluguel.
-     */
-    void printRentReceipt();
-    /**
      * @brief Método que imprime um recibo de devolução aluguel.
      */
     void printDevolutionReceipt(map<int, float> pricesByMediaCode);
@@ -80,6 +76,10 @@ public:
      * @brief Método que representa a devolução de mídia.
      */
     void returnRent(int numberOfDays);
+    /**
+     * @brief Método que imprime um recibo de aluguel.
+     */
+    void printRentReceipt();
     /**
      * @brief Método que imprime um relatório.
      */

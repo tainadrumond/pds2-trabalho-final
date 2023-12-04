@@ -35,7 +35,7 @@ void Store::setDVDCategory(DVDCategory *dvdCategory)
     auto categoryIt = _dvdCategoriesByName.find(dvdCategory->getName());
     if (categoryIt != _dvdCategoriesByName.end())
     {
-        throw invalid_argument("Erro: categoria ja cadastrada");
+        throw invalid_argument("ERRO: categoria ja cadastrada");
     }
     pair<string, DVDCategory *> categoryPair = make_pair(dvdCategory->getName(), dvdCategory);
     _dvdCategoriesByName.insert(categoryPair);
@@ -44,27 +44,15 @@ void Store::setDVDCategory(DVDCategory *dvdCategory)
 void Store::setRent(Rent *rent)
 {
     Client *client = rent->getClient();
-    for (vector<Rent *>::iterator rentIt; rentIt != _rents.end(); rentIt++)
+    for (vector<Rent *>::iterator rentIt = _rents.begin(); rentIt != _rents.end(); rentIt++)
     {
         if ((*rentIt)->getClient()->getCpf() == client->getCpf())
         {
-            cout << "Cliente " << client->getName() << " possui aluguel em andamento. ";
-            cout << "Deseja incluir novos filmes? S/N ";
-            char answer;
-            cin >> answer;
-            if (answer == 'S')
-            {
-                (*rentIt)->setMedias(rent->getMedias());
-                (*rentIt)->printRentReport();
-                break;
-            }
-            else
-            {
-                return;
-            }
+            throw invalid_argument("ERRO: cliente " + client->getName() + " possui aluguel em andamento. ");
         }
     }
     _rents.push_back(rent);
+    rent->printRentReceipt();
 }
 
 Client *Store::getClient(string cpf)
@@ -76,7 +64,7 @@ Client *Store::getClient(string cpf)
     }
     catch (out_of_range &e)
     {
-        return nullptr;
+        throw invalid_argument("ERRO: CPF inexistente");
     }
 }
 
@@ -89,7 +77,7 @@ Media *Store::getMedia(int id)
     }
     catch (out_of_range &e)
     {
-        return nullptr;
+        throw invalid_argument("ERRO: Filme " + to_string(id) + " inexistente");
     }
 }
 
@@ -125,7 +113,7 @@ Rent *Store::getRent(string cpf)
             return *rentIt;
         }
     }
-    return nullptr;
+    throw invalid_argument("ERRO: CPF inválido");
 }
 
 bool Store::checkIfMediaHasActiveRents(int mediaId)

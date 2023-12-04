@@ -9,11 +9,9 @@ void read(T &input)
 {
     cin.clear();
 
-    while (!(cin >> input))
+    if (!(cin >> input))
     {
-        cout << "ERRO: dados incorretos. Entrada incoerente com o tipo esperado. Insira novamente" << endl;
-        cin.clear();
-        cin.ignore(INT_MAX, '\n');
+        cout << "ERRO: Dados incorretos. Entrada incoerente com o tipo esperado. Operação cancelada" << endl;
     }
 }
 
@@ -119,6 +117,85 @@ void removeClient(Store *&store)
     {
         cout << e.what() << endl;
     }
+}
+
+void rent(Store *&store)
+{
+    string cpf;
+    vector<int> mediaIds = {};
+
+    read(cpf);
+    Client *client;
+    try
+    {
+        client = store->getClient(cpf);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+        return;
+    }
+
+    cout << "Digite -1 quando terminar de inserir os filmes a serem alocados" << endl;
+
+    int tempMediaId;
+    while (cin >> tempMediaId)
+    {
+        if (tempMediaId == -1)
+        {
+            break;
+        }
+        mediaIds.push_back(tempMediaId);
+    }
+
+    vector<Media *> medias;
+    Media *tempMedia;
+    for (vector<int>::iterator mediaIdIt = mediaIds.begin(); mediaIdIt != mediaIds.end(); mediaIdIt++)
+    {
+        try
+        {
+            tempMedia = store->getMedia(*mediaIdIt);
+        }
+        catch (invalid_argument &e)
+        {
+            cout << e.what() << endl;
+            return;
+        }
+        medias.push_back(tempMedia);
+    }
+
+    try
+    {
+        Rent *rent = new Rent(client, medias);
+        store->setRent(rent);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+        return;
+    }
+}
+
+void returnRent(Store *&store)
+{
+    string cpf;
+    read(cpf);
+
+    int numberOfDays;
+    read(numberOfDays);
+
+    Rent *rent;
+    try
+    {
+        rent = store->getRent(cpf);
+    }
+    catch (invalid_argument &e)
+    {
+        cout << e.what() << endl;
+        return;
+    }
+
+    rent->returnRent(numberOfDays);
 }
 
 void listMedias(Store *&store)

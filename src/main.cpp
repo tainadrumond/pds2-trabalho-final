@@ -72,9 +72,11 @@ int main()
         break;
 
       case 8: // "AL"
+        rent(store);
         break;
 
       case 9: // "DV"
+        returnRent(store);
         break;
 
       case 10: //"FS"

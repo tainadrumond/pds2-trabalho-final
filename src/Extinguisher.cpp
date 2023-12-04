@@ -1,5 +1,5 @@
 #include <string>
-#include <Extinguisher.hpp>
+#include "../include/Extinguisher.hpp"
 
 void Extinguisher::refuel()
 {

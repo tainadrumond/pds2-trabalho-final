@@ -30,4 +30,8 @@ void rent(Store *&store);
 
 void returnRent(Store *&store);
 
+void listMedias(Store *&store);
+
+void listClients(Store *&store);
+
 #endif

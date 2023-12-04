@@ -163,14 +163,16 @@ void Store::removeClient(string cpf)
         throw invalid_argument("ERRO: CPF inexistente");
     }
 
-    Rent *rent = getRent(cpf);
-    if (rent != nullptr)
+    try
     {
+        Rent *rent = getRent(cpf);
         throw invalid_argument("ERRO: o cliente não pode ser removido pois possui alugueis ativos");
     }
-
-    _clientsByCpf.erase(clientIt);
-    cout << "Cliente " << cpf << " removido com sucesso" << endl;
+    catch (invalid_argument &e)
+    {
+        _clientsByCpf.erase(clientIt);
+        cout << "Cliente " << cpf << " removido com sucesso" << endl;
+    }
 }
 
 void Store::calculateIncome()
@@ -188,12 +190,65 @@ void Store::calculateIncome()
 
 void Store::giveSuggestion()
 {
-    vector<Media *> sortedMediasByRating;
-    sort(sortedMediasByRating.begin(), sortedMediasByRating.end(), [](Media *a, Media *b)
-         { return a->getRating() > b->getRating(); });
+    vector<pair<int, Media *>> sortedMediasByRating(_mediasById.begin(), _mediasById.end());
+    sort(sortedMediasByRating.begin(), sortedMediasByRating.end(), [](pair<int, Media *> a, pair<int, Media *> b)
+         { return a.second->getRating() > b.second->getRating(); });
 
     cout << "Sugestão de mídias:" << endl;
-    cout << "1 - " << sortedMediasByRating[0]->getTitle() << endl;
-    cout << "2 - " << sortedMediasByRating[1]->getTitle() << endl;
-    cout << "3 - " << sortedMediasByRating[2]->getTitle() << endl;
+    cout << "1 - " << sortedMediasByRating[0].second->getTitle() << endl;
+    cout << "2 - " << sortedMediasByRating[1].second->getTitle() << endl;
+    cout << "3 - " << sortedMediasByRating[2].second->getTitle() << endl;
+}
+
+void Store::listMedias(char orderBy)
+{
+    vector<pair<int, Media *>> medias(_mediasById.begin(), _mediasById.end());
+    if (orderBy == 'C')
+    {
+        sort(medias.begin(), medias.end(), [](const auto &a, const auto &b)
+             { return a.first < b.first; });
+    }
+    else if (orderBy == 'T')
+    {
+        sort(medias.begin(), medias.end(), [](const auto &a, const auto &b)
+             { return (a.second)->getTitle() < (b.second)->getTitle(); });
+    }
+    else
+    {
+        throw invalid_argument("ERRO: dados incorretos. Opção de ordenamento " + to_string(orderBy) + " inválida.");
+    }
+
+    Media *tempMedia;
+    for (vector<pair<int, Media *>>::iterator mediaIt = medias.begin(); mediaIt != medias.end(); mediaIt++)
+    {
+        tempMedia = (*mediaIt).second;
+        cout << tempMedia->getId() << " " << tempMedia->getTitle() << " ";
+        cout << tempMedia->getCopies() << " " << tempMedia->getMediaType() << endl;
+    }
+}
+
+void Store::listClients(char orderBy)
+{
+    vector<pair<string, Client *>> clients(_clientsByCpf.begin(), _clientsByCpf.end());
+    if (orderBy == 'C')
+    {
+        sort(clients.begin(), clients.end(), [](const auto &a, const auto &b)
+             { return a.first < b.first; });
+    }
+    else if (orderBy == 'N')
+    {
+        sort(clients.begin(), clients.end(), [](const auto &a, const auto &b)
+             { return (a.second)->getName() < (b.second)->getName(); });
+    }
+    else
+    {
+        throw invalid_argument("ERRO: dados incorretos. Opção de ordenamento " + to_string(orderBy) + " inválida.");
+    }
+
+    Client *tempClient;
+    for (vector<pair<string, Client *>>::iterator clientIt = clients.begin(); clientIt != clients.end(); clientIt++)
+    {
+        tempClient = (*clientIt).second;
+        cout << tempClient->getCpf() << " " << tempClient->getName() << endl;
+    }
 }

@@ -36,9 +36,22 @@ int main()
 
   string textIn;
 
+  cout << "Comandos disponíveis: CF (cadastrar filme), RF (remover filme), LF (listar filmes) ";
+  cout << "CC (cadastrar cliente), RC (remover cliente), LC (listar clientes), AL (alugar), DV (devolver), FS (finalizar sistema)" << endl;
+
   while (true)
   {
-    read(textIn);
+    cout << "\nDigite um dos comandos disponíveis: CF, RF, LF, CC, RC, LC, AL, DV, FS" << endl;
+
+    try
+    {
+      read(textIn);
+    }
+    catch (invalid_argument &e)
+    {
+      cout << e.what() << endl;
+      continue;
+    }
 
     auto it = commands.find(textIn); // Se o comando de entrada tiver dentro do map, então entra no switch case
     if (it != commands.end())
@@ -60,6 +73,7 @@ int main()
         break;
 
       case 4: // "LF"
+        listMedias(store);
         break;
 
       case 5: // "CC"
@@ -71,6 +85,7 @@ int main()
         break;
 
       case 7: // "LC"
+        listClients(store);
         break;
 
       case 8: // "AL"
@@ -92,7 +107,7 @@ int main()
     }
     else
     {
-      cout << "ERRO: comando inválido. Comandos disponíveis: CF, RF, LF, CC, RC, LC, AL, DV, FS" << endl;
+      cout << "ERRO: comando inválido." << endl;
     }
   }
 

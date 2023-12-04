@@ -12,6 +12,9 @@
 class Store
 {
 private:
+ /**
+ * @brief Mapa de Clientes e CPFs.
+ */
     std::map<string, Client *> _clientsByCpf;
     std::map<int, Media *> _mediasById;
     std::map<int, Extinguisher> _ExtinguishersById;

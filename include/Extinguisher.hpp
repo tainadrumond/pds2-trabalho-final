@@ -3,7 +3,6 @@
 #define EXTINGUISHER_HPP
 
 #include <string>
-#include <Media.hpp>
 
 class Extinguisher
 {

@@ -1,4 +1,5 @@
 #include "../include/Store.hpp"
+#include "../include/Exceptions.hpp"
 #include <iostream>
 #include <algorithm>
 
@@ -9,7 +10,7 @@ void Store::setClient(Client *client)
     auto clientIt = _clientsByCpf.find(client->getCpf());
     if (clientIt != _clientsByCpf.end())
     {
-        throw invalid_argument("ERRO: CPF repetido");
+        throw NonExistentCPF();
     }
     pair<string, Client *> clientPair = make_pair(client->getCpf(), client);
     _clientsByCpf.insert(clientPair);
@@ -22,7 +23,7 @@ void Store::setMedia(Media *media)
     auto mediaIt = _mediasById.find(media->getId());
     if (mediaIt != _mediasById.end())
     {
-        throw invalid_argument("ERRO: codigo repetido");
+        throw RepeatedCode();
     }
     pair<int, Media *> mediaPair = make_pair(media->getId(), media);
     _mediasById.insert(mediaPair);
@@ -51,6 +52,13 @@ void Store::setRent(Rent *rent)
             throw invalid_argument("ERRO: cliente " + client->getName() + " possui aluguel em andamento. ");
         }
     }
+
+    vector<Media *> medias = rent->getMedias();
+    if (medias.size() == 0)
+    {
+        throw invalid_argument("ERRO: é necessário inserir os filmes que serao alugados.");
+    }
+
     _rents.push_back(rent);
     rent->printRentReceipt();
 }
@@ -64,7 +72,7 @@ Client *Store::getClient(string cpf)
     }
     catch (out_of_range &e)
     {
-        throw invalid_argument("ERRO: CPF inexistente");
+        throw NonExistentCPF();
     }
 }
 
@@ -77,7 +85,7 @@ Media *Store::getMedia(int id)
     }
     catch (out_of_range &e)
     {
-        throw invalid_argument("ERRO: Filme " + to_string(id) + " inexistente");
+        throw NonExistentMedia(to_string(id));
     }
 }
 
@@ -113,7 +121,7 @@ Rent *Store::getRent(string cpf)
             return *rentIt;
         }
     }
-    throw invalid_argument("ERRO: CPF inválido");
+    throw NonExistentCPF();
 }
 
 bool Store::checkIfMediaHasActiveRents(int mediaId)
@@ -142,7 +150,7 @@ void Store::removeMedia(int id)
     auto mediaIt = _mediasById.find(id);
     if (mediaIt == _mediasById.end())
     {
-        throw invalid_argument("ERRO: codigo inexistente");
+        throw NonExistentCode();
     }
 
     bool mediaHasActiveRents = checkIfMediaHasActiveRents(id);
@@ -160,13 +168,16 @@ void Store::removeClient(string cpf)
     auto clientIt = _clientsByCpf.find(cpf);
     if (clientIt == _clientsByCpf.end())
     {
-        throw invalid_argument("ERRO: CPF inexistente");
+        throw NonExistentCPF();
     }
 
     try
     {
         Rent *rent = getRent(cpf);
-        throw invalid_argument("ERRO: o cliente não pode ser removido pois possui alugueis ativos");
+        if (rent != nullptr)
+        {
+            throw invalid_argument("ERRO: o cliente não pode ser removido pois possui alugueis ativos");
+        }
     }
     catch (invalid_argument &e)
     {
@@ -195,9 +206,14 @@ void Store::giveSuggestion()
          { return a.second->getRating() > b.second->getRating(); });
 
     cout << "Sugestão de mídias:" << endl;
-    cout << "1 - " << sortedMediasByRating[0].second->getTitle() << endl;
-    cout << "2 - " << sortedMediasByRating[1].second->getTitle() << endl;
-    cout << "3 - " << sortedMediasByRating[2].second->getTitle() << endl;
+    for (int i = 0; i < sortedMediasByRating.size(); i++)
+    {
+        if (i == 3)
+        {
+            break;
+        }
+        cout << i + 1 << " - " << sortedMediasByRating[i].second->getTitle() << endl;
+    }
 }
 
 void Store::listMedias(char orderBy)

@@ -2,7 +2,7 @@
 #include "../include/VideoTape.hpp"
 #include "../include/Store.hpp"
 #include "../include/IoOperations.hpp"
-#include "IoOperations.cpp"
+#include "../include/Exceptions.hpp"
 #include <iostream>
 #include <string>
 #include <map>
@@ -107,7 +107,7 @@ int main()
     }
     else
     {
-      cout << "ERRO: comando inválido." << endl;
+      cout << IncorrectData().what() << endl;
     }
   }
 

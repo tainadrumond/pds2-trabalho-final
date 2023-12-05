@@ -23,7 +23,7 @@ void Client::setCpf(string cpf)
     bool cpfIsAuthentic = checkIfCpfIsAuthentic(cpf);
     if (!cpfIsAuthentic)
     {
-        throw invalid_argument("ERRO: CPF inválido");
+        throw NonExistentCPF();
     }
     _cpf = cpf;
 }

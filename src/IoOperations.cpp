@@ -2,8 +2,11 @@
 #include "../include/DVD.hpp"
 #include "../include/VideoTape.hpp"
 #include "../include/DbUtils.hpp"
+#include "../include/Exceptions.hpp"
 #include <iostream>
 #include <climits>
+
+using namespace std;
 
 template <typename T>
 void read(T &input)
@@ -74,7 +77,7 @@ void registerMedia(Store *&store)
     {
         store->setMedia(media);
     }
-    catch (invalid_argument &e)
+    catch (RepeatedCode &e)
     {
         cout << e.what() << endl;
     }
@@ -87,6 +90,10 @@ void removeMedia(Store *&store)
     try
     {
         store->removeMedia(code);
+    }
+    catch (NonExistentCode &e)
+    {
+        cout << e.what() << endl;
     }
     catch (invalid_argument &e)
     {
@@ -114,7 +121,7 @@ void registerClient(Store *&store)
     {
         client = new Client(name, cpf);
     }
-    catch (invalid_argument &e)
+    catch (NonExistentCPF &e)
     {
         cout << e.what() << ". Cadastro cancelado" << endl;
         return;
@@ -124,7 +131,7 @@ void registerClient(Store *&store)
     {
         store->setClient(client);
     }
-    catch (invalid_argument &e)
+    catch (NonExistentCPF &e)
     {
         cout << e.what() << ". Cadastro cancelado" << endl;
     }
@@ -138,6 +145,10 @@ void removeClient(Store *&store)
     {
         read(cpf);
         store->removeClient(cpf);
+    }
+    catch (NonExistentCPF &e)
+    {
+        cout << e.what() << endl;
     }
     catch (invalid_argument &e)
     {
@@ -156,7 +167,7 @@ void rent(Store *&store)
         read(cpf);
         client = store->getClient(cpf);
     }
-    catch (invalid_argument &e)
+    catch (NonExistentCPF &e)
     {
         cout << e.what() << endl;
         return;
@@ -171,7 +182,18 @@ void rent(Store *&store)
         {
             break;
         }
-        mediaIds.push_back(tempMediaId);
+
+        if (mediaIds.size() == 0)
+        {
+            mediaIds.push_back(tempMediaId);
+        }
+        for (vector<int>::iterator mediaIdIt = mediaIds.begin(); mediaIdIt != mediaIds.end(); mediaIdIt++)
+        {
+            if ((*mediaIdIt) != tempMediaId)
+            {
+                mediaIds.push_back(tempMediaId);
+            }
+        }
     }
 
     vector<Media *> medias;
@@ -181,13 +203,13 @@ void rent(Store *&store)
         try
         {
             tempMedia = store->getMedia(*mediaIdIt);
+            medias.push_back(tempMedia);
         }
-        catch (invalid_argument &e)
+        catch (NonExistentMedia &e)
         {
             cout << e.what() << endl;
             return;
         }
-        medias.push_back(tempMedia);
     }
 
     try
@@ -214,7 +236,7 @@ void returnRent(Store *&store)
         read(numberOfDays);
         rent = store->getRent(cpf);
     }
-    catch (invalid_argument &e)
+    catch (NonExistentCPF &e)
     {
         cout << e.what() << endl;
         return;
@@ -257,5 +279,5 @@ void readFile()
     string path;
     read(path);
     DbUtils DbUtils(path);
-    DbUtils.load();    
+    DbUtils.load();
 }

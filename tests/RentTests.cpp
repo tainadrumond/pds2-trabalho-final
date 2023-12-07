@@ -12,7 +12,7 @@
 
 TEST_CASE("1: Testando construtor de Rent")
 {
-    Client client("Joao", 123456789);
+    Client client("Joao", "123456789");
     Media *media = new VideoTape("Titulo", 10, 1);
     vector<Media *> medias;
     medias.push_back(media);
@@ -22,7 +22,7 @@ TEST_CASE("1: Testando construtor de Rent")
 
 TEST_CASE("2: Testando construtor de Rent")
 {
-    Client client("Joao", 123456789);
+    Client client("Joao", "123456789");
     Media *media = new VideoTape("Titulo", 10, 1);
     vector<Media *> medias;
     medias.push_back(media);
@@ -32,7 +32,7 @@ TEST_CASE("2: Testando construtor de Rent")
 
 TEST_CASE("3: Return rent")
 {
-    Client client("Joao", 123456789);
+    Client client("Joao", "123456789");
     Media *media = new VideoTape("Titulo", 10, 1);
     vector<Media *> medias;
     medias.push_back(media);
@@ -43,7 +43,7 @@ TEST_CASE("3: Return rent")
 
 TEST_CASE("4: Return rent")
 {
-    Client client("Joao", 123456789);
+    Client client("Joao", "123456789");
     DVDCategory category("Categoria", 10, true);
     Media *media = new DVD("Titulo", 10, 1, &category);
     vector<Media *> medias;
